@@ -335,7 +335,12 @@ class HomeScreen extends StatelessWidget {
             GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const dynamicSubjectGridDelegate(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 14,
+                mainAxisSpacing: 14,
+                childAspectRatio: 0.95,
+              ),
               itemCount: appSubjects.length,
               itemBuilder: (context, index) {
                 final subject = appSubjects[index];
@@ -494,32 +499,4 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-class dynamicSubjectGridDelegate extends SliverGridDelegate {
-  const dynamicSubjectGridDelegate();
-
-  @override
-  SliverGridLayout getLayout(SliverConstraints constraints) {
-    int crossAxisCount = constraints.crossAxisExtent > 600 ? 3 : 2;
-    double crossAxisSpacing = 14;
-    double mainAxisSpacing = 14;
-    double childAspectRatio = 0.95;
-
-    double usableCrossAxisExtent = constraints.crossAxisExtent - crossAxisSpacing * (crossAxisCount - 1);
-    double childCrossAxisExtent = usableCrossAxisExtent / crossAxisCount;
-    double childMainAxisExtent = childCrossAxisExtent / childAspectRatio;
-
-    return SliverGridRegularTileLayout(
-      crossAxisCount: crossAxisCount,
-      mainAxisStride: childMainAxisExtent + mainAxisSpacing,
-      crossAxisStride: childCrossAxisExtent + crossAxisSpacing,
-      childMainAxisExtent: childMainAxisExtent,
-      childCrossAxisExtent: childCrossAxisExtent,
-      reverseCrossAxis: false,
-    );
-  }
-
-  @override
-  bool shouldRelayout(covariant SliverGridDelegate oldDelegate) => false;
 }

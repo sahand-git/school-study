@@ -68,8 +68,10 @@ class _QuestionCardState extends State<QuestionCard> with SingleTickerProviderSt
     return AnimatedBuilder(
       animation: _shakeController,
       builder: (context, child) {
+        final isEvenStep = (_shakeController.value * 8).floor() % 2 == 0;
+        final direction = isEvenStep ? 1.0 : -1.0;
         final offset = (_shakeController.value > 0)
-            ? (6 * (1 - _shakeController.value) * (2 * (_shakeController.value * 4).floor().isEven ? 1 : -1))
+            ? (6.0 * (1.0 - _shakeController.value) * direction)
             : 0.0;
 
         return Transform.translate(
